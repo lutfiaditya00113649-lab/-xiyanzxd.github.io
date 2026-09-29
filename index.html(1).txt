@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xiyanz X'D - Official Store</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>body{font-family:'Poppins',sans-serif;background:#070a12;color:#fff}</style>
+</head>
+<body>
+
+<header class="sticky top-0 z-50 bg-[#0b0f19]/80 backdrop-blur-xl border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-black">XIYANZ <span class="text-blue-500">X'D</span></h1>
+    <div class="flex gap-2 items-center">
+      <button onclick="openCart()" class="relative bg-white text-black px-5 py-2 rounded-full font-bold text-sm"><i class="fas fa-shopping-cart"></i> <span id="cart-count" class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-full ml-1">0</span></button>
+      <a href="https://wa.me/6285177480449" class="hidden md:block bg-blue-600 px-5 py-2 rounded-full font-bold text-sm"><i class="fab fa-whatsapp"></i> Admin</a>
+    </div>
+  </div>
+</header>
+
+<section class="max-w-7xl mx-auto px-5 py-10 grid md:grid-cols-2 gap-8 items-center">
+  <div>
+    <h2 class="text-5xl font-black leading-[1.1]">JUBEL AKUN<br><span class="text-blue-500">JOKI & TOP UP</span><br>PALING MURAH</h2>
+    <p class="text-white/50 text-sm mt-4">5 Game: Genshin Impact, HSR, ZZZ, WuWa, MLBB. Garansi 100% Aman.</p>
+  </div>
+  <div class="grid grid-cols-3 gap-3">
+    <div onclick="setService('Jubel')" class="cursor-pointer bg-[#121827] border border-white/10 p-5 rounded-2xl text-center hover:border-blue-500 transition"><p class="text-2xl">🏪</p><p class="font-bold text-xs mt-2">Jubel Akun</p></div>
+    <div onclick="setService('Joki')" class="cursor-pointer bg-white text-black p-5 rounded-2xl text-center"><p class="text-2xl">🎮</p><p class="font-bold text-xs mt-2">Joki Akun</p></div>
+    <div onclick="setService('TopUp')" class="cursor-pointer bg-[#121827] border border-white/10 p-5 rounded-2xl text-center hover:border-blue-500 transition"><p class="text-2xl">💎</p><p class="font-bold text-xs mt-2">Top Up</p></div>
+  </div>
+</section>
+
+<div class="max-w-7xl mx-auto px-5 flex flex-wrap gap-2">
+  <button onclick="setGame('all')" class="gm bg-blue-600 px-5 py-2 rounded-full text-sm font-bold">Semua Game</button>
+  <button onclick="setGame('Genshin')" class="gm bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">Genshin Impact</button>
+  <button onclick="setGame('HSR')" class="gm bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">HSR</button>
+  <button onclick="setGame('ZZZ')" class="gm bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">ZZZ</button>
+  <button onclick="setGame('WuWa')" class="gm bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">WuWa</button>
+  <button onclick="setGame('MLBB')" class="gm bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">MLBB</button>
+</div>
+
+<div class="max-w-7xl mx-auto px-5 mt-3 flex flex-wrap gap-2 border-t border-white/10 pt-4">
+  <button onclick="setService('all')" class="srv bg-white text-black px-5 py-2 rounded-full text-sm font-bold">Semua Layanan</button>
+  <button onclick="setService('Jubel')" class="srv bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">Jubel Akun</button>
+  <button onclick="setService('Joki')" class="srv bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">Joki Akun</button>
+  <button onclick="setService('TopUp')" class="srv bg-[#121827] border border-white/10 px-5 py-2 rounded-full text-sm font-bold">Top Up</button>
+</div>
+
+<section id="list" class="max-w-7xl mx-auto px-5 py-8 grid md:grid-cols-3 gap-5"></section>
+
+<!-- CART SLIDER -->
+<div id="cart" class="fixed inset-0 bg-black/70 z-[100] hidden">
+  <div class="absolute right-0 top-0 h-full w-full max-w-[400px] bg-[#0b0f19] border-l border-white/10 p-6 flex flex-col">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-black">Keranjang (<span id="cart-count2">0</span>)</h3>
+      <button onclick="closeCart()" class="w-8 h-8 bg-white/10 rounded-full"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto space-y-3"></div>
+
+    <div class="border-t border-white/10 pt-4 mt-4 space-y-3">
+      <input id="nama" placeholder="Nama / Nickname Game" class="w-full bg-[#121827] border border-white/10 px-4 py-3 rounded-xl text-sm outline-none focus:border-blue-500">
+      <input id="uid" placeholder="UID / ID Game (jika Top Up/Joki)" class="w-full bg-[#121827] border border-white/10 px-4 py-3 rounded-xl text-sm outline-none focus:border-blue-500">
+      <div class="flex justify-between font-black text-lg"><span>Total:</span><span id="cart-total" class="text-blue-500">Rp 0</span></div>
+      <button onclick="checkoutWA()" class="w-full bg-blue-600 py-4 rounded-full font-black text-sm"><i class="fab fa-whatsapp"></i> Checkout ke WhatsApp</button>
+      <button onclick="clearCart()" class="w-full bg-white/10 py-3 rounded-full font-bold text-xs">Kosongkan Keranjang</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WA="6285177480449";
+const produk=[
+  {id:1, service:'Jubel', game:'Genshin', title:'Genshin - Neuvillette C6R5 + Kazuha C2', price:1450000, tag:'ENDGAME', img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500'},
+  {id:2, service:'Jubel', game:'HSR', title:'HSR - Acheron E6S5 + Sunday', price:2200000, tag:'SULTAN', img:'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500'},
+  {id:3, service:'Jubel', game:'MLBB', title:'MLBB - 900 Skin, Mythic Glory', price:1800000, tag:'SULTAN', img:'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500'},
+  {id:4, service:'Joki', game:'Genshin', title:'Joki Spiral Abyss 12-3 Full Star', price:25000, tag:'JOKI CEPAT', img:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500'},
+  {id:5, service:'Joki', game:'MLBB', title:'Joki Epic ke Mythic', price:150000, tag:'JOKI RANK', img:'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500'},
+  {id:6, service:'Joki', game:'ZZZ', title:'Joki Shiyu Defense S-Rank', price:30000, tag:'JOKI', img:'https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=500'},
+  {id:7, service:'TopUp', game:'Genshin', title:'6050 Genesis Crystal + Bonus', price:890000, tag:'TOP UP', img:'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500'},
+  {id:8, service:'TopUp', game:'MLBB', title:'1000 Diamond ML + 100 Bonus', price:240000, tag:'TOP UP', img:'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500'},
+  {id:9, service:'TopUp', game:'WuWa', title:'1980 Lunite', price:310000, tag:'TOP UP', img:'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500'},
+];
+
+let curService='all', curGame='all', cart=[];
+const listEl=document.getElementById('list');
+
+function formatRp(n){return 'Rp '+n.toLocaleString('id-ID');}
+
+function render(){
+  listEl.innerHTML='';
+  produk.filter(p=>(curService==='all'||p.service===curService)&&(curGame==='all'||p.game===curGame)).forEach(p=>{
+    listEl.innerHTML+=`
+    <div class="bg-[#121827] border border-white/10 rounded-[20px] overflow-hidden">
+      <img src="${p.img}" class="w-full h-[180px] object-cover">
+      <div class="p-5">
+        <div class="flex justify-between"><span class="text-[10px] font-black bg-white text-black px-3 py-1 rounded-full">${p.game}</span><span class="text-[10px] text-blue-400 font-bold">${p.tag}</span></div>
+        <h3 class="font-bold mt-3 text-sm leading-tight">${p.title}</h3>
+        <p class="text-[11px] text-white/40 mt-1">${p.service}</p>
+        <p class="text-xl font-black mt-2">${formatRp(p.price)}</p>
+        <button onclick="addToCart(${p.id})" class="mt-4 w-full bg-white text-black py-3 rounded-full font-bold text-sm hover:bg-blue-600 hover:text-white transition">+ Keranjang</button>
+      </div>
+    </div>`;
+  });
+}
+
+function addToCart(id){
+  const item=produk.find(p=>p.id===id);
+  cart.push(item);
+  updateCart();
+  openCart();
+}
+
+function updateCart(){
+  document.getElementById('cart-count').innerText=cart.length;
+  document.getElementById('cart-count2').innerText=cart.length;
+  const wrap=document.getElementById('cart-items');
+  let total=0;
+  wrap.innerHTML='';
+  cart.forEach((c,i)=>{
+    total+=c.price;
+    wrap.innerHTML+=`<div class="bg-[#121827] p-3 rounded-xl flex justify-between items-center"><div><p class="text-xs font-bold">${c.title}</p><p class="text-xs text-blue-400">${formatRp(c.price)}</p></div><button onclick="removeCart(${i})" class="text-red-400"><i class="fas fa-trash"></i></button></div>`;
+  });
+  document.getElementById('cart-total').innerText=formatRp(total);
+}
+
+function removeCart(i){cart.splice(i,1); updateCart();}
+function clearCart(){cart=[]; updateCart();}
+function openCart(){document.getElementById('cart').classList.remove('hidden');}
+function closeCart(){document.getElementById('cart').classList.add('hidden');}
+
+function checkoutWA(){
+  if(cart.length===0) return alert('Keranjang kosong!');
+  const nama=document.getElementById('nama').value||'-';
+  const uid=document.getElementById('uid').value||'-';
+  let pesan=`Halo Xiyanz X'D mau checkout:%0A%0A`;
+  let total=0;
+  cart.forEach((c,i)=>{pesan+=`${i+1}. ${c.title} - ${formatRp(c.price)}%0A`; total+=c.price;});
+  pesan+=`%0ATotal: ${formatRp(total)}%0ANama: ${nama}%0AUID/ID: ${uid}`;
+  window.open(`https://wa.me/${WA}?text=${pesan}`,'_blank');
+}
+
+function setService(s){curService=s; render();}
+function setGame(g){curGame=g; render();}
+render();
+</script>
+</body>
+</html>
